@@ -7,5 +7,7 @@
 - バックエンドフレームワーク/hono.js
 - フロントエンドフレームワーク/Vue.js
 - データベース/lowdb
+- メール/nodemailer
+- 画像処理/fluent-ffmpeg
 
 ![:reien](https://count.getloli.com/@reien?name=reien&theme=gelbooru&padding=8&offset=0&align=center&scale=1&pixelated=1&darkmode=auto)
