@@ -6,6 +6,7 @@
 - ランタイム/Bun
 - バックエンドフレームワーク/hono.js
 - フロントエンドフレームワーク/Vue.js
+- ActivityPub/fedify
 - データベース/lowdb
 - メール/nodemailer
 - 画像処理/fluent-ffmpeg
