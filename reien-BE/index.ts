@@ -7,7 +7,7 @@ app.post("/api/login", async (c) => {
   const account = await c.req.json()
   console.log(account)
   const token: string = "a"
-  return c.json({ "token":token })
+  return c.json({ "token": token })
 })
 
 export default app
