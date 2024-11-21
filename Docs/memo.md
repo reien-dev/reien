@@ -1,7 +1,8 @@
 ## library
-- lowdb
-- hono
+- lowdb *
+- hono *
 - nodemailer
 - vue
 - ffmpeg
+- fedify
 
