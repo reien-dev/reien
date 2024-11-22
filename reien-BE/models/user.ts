@@ -10,4 +10,12 @@ async function useradd (username, password) {
     return "success"
 }
 
-export default {useradd}
+async function singup () {
+    
+}
+
+async function login () {
+
+}
+
+export default {useradd, singup, login}
