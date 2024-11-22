@@ -1,21 +1,23 @@
 import { JSONFilePreset } from "lowdb/node"
+import user from "../user"
 
 
-async function useradd (username, password) {
-    const defaultData = {users: []}
-    const db = await JSONFilePreset("./database/users.json", defaultData)
+async function singup() {
 
-    db.data.users.push({"user": username,"pass": password})
-    await db.write()
-    return "success"
 }
 
-async function singup () {
+async function login() {
+
+}
+
+
+
+async function add_user() {
     
 }
 
-async function login () {
+async function username2id() {
 
 }
 
-export default {useradd, singup, login}
+export default {singup, login}

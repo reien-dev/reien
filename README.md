@@ -7,7 +7,7 @@
 - バックエンドフレームワーク/hono.js
 - フロントエンドフレームワーク/Vue.js
 - ActivityPub/fedify
-- データベース/lowdb
+- データベース/sqlite
 - メール/nodemailer
 - 画像処理/fluent-ffmpeg
 
