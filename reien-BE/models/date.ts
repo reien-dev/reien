@@ -1,9 +1,7 @@
 async function now () {
     const now = new Date()
-    const iso8601 = now.toISOString()
-    return iso8601
+    const iso = now.toISOString()
+    return iso
 }
-
-
 
 export default{now}
