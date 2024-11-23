@@ -4,4 +4,4 @@ async function now () {
     return iso
 }
 
-export default{now}
+export default {now}
