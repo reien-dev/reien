@@ -36,10 +36,12 @@ accounts.post("/login", async (c) => {
         const body = await c.req.json();
         const username:string = body.username;
         const password:string = body.password;
-        if(await db.login(username,password)){
+        const [auth, token]:[boolean, string] = await db.login(username,password)
+        if(auth){
             c.status(200);
             return c.json({
-                message: "Success"
+                message: "Success",
+                token: token
             });
         }else{
             c.status(403);

@@ -1,4 +1,4 @@
-async function now () {
+function now () {
     const now = new Date()
     const iso = now.toISOString()
     return iso
