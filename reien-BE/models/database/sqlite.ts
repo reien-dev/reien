@@ -11,7 +11,7 @@ async function init(){
 }
 
 function sqlite_escape(value:string) {
-    return value.replace(/'/g, "''"); 
+    return value.replace(/'/g, "''");
 }
 
 async function add_user(username:string, hashpass:string, email:string) {
