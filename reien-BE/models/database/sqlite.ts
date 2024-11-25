@@ -17,27 +17,9 @@ function sqlite_escape(value:string) {
 }
 
 
-// TODO ユーザ固有のIDを追加する。(ユーザネームの変更などができなくなるため)
-
-async function add_user(username:string, hashpass:string, email:string) {
-    let q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}' OR email = '${sqlite_escape(email)}'`).all()[0];
-    if(q) return false;
-    db.query(`INSERT INTO users VALUES('${sqlite_escape(username)}', '${sqlite_escape(hashpass)}', '${sqlite_escape(email)}')`).run();
-    return true;
-}
-
-async function login(username:string, password:string) {
-    let q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}'`).all()[0];
-    if(!q) return false;
-    const auth:boolean = await Bun.password.verify(password, q.hash);
-    const token:string = create_token(username)
-    return [auth, token];
-}
-
-// TODO トークンを定期的に削除する(有効期限)
-
+// TODO トークンに有効期限, adminのトークン
 function create_token(username: string) {
-    let q = db.query(`SELECT * FROM token WHERE username = '${sqlite_escape(username)}'`).all()[0];
+    const q = db.query(`SELECT * FROM token WHERE username = '${sqlite_escape(username)}'`).all()[0];
     // q = string(true) or undefined(false)
     const token:string = Bun.randomUUIDv7();
     const created_at:string = date.now();
@@ -49,9 +31,30 @@ function create_token(username: string) {
     return token;
 }
 
-async function auth_token() {
-
+// TODO ユーザ固有のIDを追加する。(ユーザネームの変更などができなくなるため)
+async function add_user(username:string, hashpass:string, email:string) {
+    const q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}' OR email = '${sqlite_escape(email)}'`).all()[0];
+    if(q) return false;
+    db.query(`INSERT INTO users VALUES('${sqlite_escape(username)}', '${sqlite_escape(hashpass)}', '${sqlite_escape(email)}')`).run();
+    return true;
 }
 
 
-export default {init, add_user, login}
+async function login(username:string, password:string) {
+    const q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}'`).all()[0];
+    const p:boolean = await Bun.password.verify(password, q.hash);
+    if(!q || !p) return false;
+    return create_token(username);
+    //return = token(true) or false
+}
+
+
+//uuidが奇跡的に被ったらどうなる？ => TODO 重複対策
+async function auth_token(token: string) {
+    const q = db.query(`SELECT * FROM token WHERE token = '${sqlite_escape(token)}'`).all()[0];
+    if(!q) return false;
+    return true;
+}
+
+
+export default {init, add_user, login, auth_token}

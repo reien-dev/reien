@@ -36,8 +36,9 @@ accounts.post("/login", async (c) => {
         const body = await c.req.json();
         const username:string = body.username;
         const password:string = body.password;
-        const [auth, token]:[boolean, string] = await db.login(username,password)
-        if(auth){
+        const token = await db.login(username,password)
+        // token = uuid(true) or false
+        if(token){
             c.status(200);
             return c.json({
                 message: "Success",
@@ -58,4 +59,25 @@ accounts.post("/login", async (c) => {
 })
 
 
-
+accounts.post("/test", async (c) => {
+    try{
+        const db = await database.init();
+        const auth = c.req.header('Authorization')
+        if(await db.auth_token(auth)){
+            c.status(200);
+            return c.json({
+                message: "Success",
+            });
+        }else{
+            c.status(403);
+            return c.json({
+                error: "403"
+            });
+        }
+    }catch(e){
+        c.status(500);
+        return c.json({
+            error: "500"
+        });
+    }
+})
