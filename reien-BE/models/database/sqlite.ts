@@ -52,8 +52,11 @@ async function login(username:string, password:string) {
 //uuidが奇跡的に被ったらどうなる？ => TODO 重複対策
 async function auth_token(token: string) {
     const q = db.query(`SELECT * FROM token WHERE token = '${sqlite_escape(token)}'`).all()[0];
-    if(!q) return false;
-    return true;
+    if(!q) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 
