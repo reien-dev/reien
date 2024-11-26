@@ -30,13 +30,16 @@ function create_token(username: string) {
     }
     return token;
 }
-
+// TODO ユーザネームかメールどちらが重複してるか判定する
 // TODO ユーザ固有のIDを追加する。(ユーザネームの変更などができなくなるため)
 async function add_user(username:string, hashpass:string, email:string) {
     const q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}' OR email = '${sqlite_escape(email)}'`).all()[0];
-    if(q) return false;
-    db.query(`INSERT INTO users VALUES('${sqlite_escape(username)}', '${sqlite_escape(hashpass)}', '${sqlite_escape(email)}')`).run();
-    return true;
+    if(q) {
+        return false;
+    } else {
+        db.query(`INSERT INTO users VALUES('${sqlite_escape(username)}', '${sqlite_escape(hashpass)}', '${sqlite_escape(email)}')`).run();
+        return true;
+    }
 }
 
 
@@ -52,8 +55,11 @@ async function login(username:string, password:string) {
 //uuidが奇跡的に被ったらどうなる？ => TODO 重複対策
 async function auth_token(token: string) {
     const q = db.query(`SELECT * FROM token WHERE token = '${sqlite_escape(token)}'`).all()[0];
-    if(!q) return false;
-    return true;
+    if(!q) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 
