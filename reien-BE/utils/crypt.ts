@@ -1,5 +1,5 @@
-async function hash_password (password: string) {
-    const hash: string = await Bun.password.hash(password);
+function hash_password (password: string) {
+    const hash: string = Bun.password.hashSync(password);
     return hash
 }
 

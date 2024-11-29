@@ -9,9 +9,9 @@ accounts.post("/signup", async (c) => {
         const db = await database.init();
         const body = await c.req.json();
         const username:string = body.username;
-        const hashpass:string = await crypt.hash_password(body.password);
+        const password:string = body.password;
         const email:string = body.email;
-        if(await db.add_user(username, hashpass, email)){
+        if(await db.signup(username, password, email)){
             c.status(200);
             return c.json({
                 message: "Success"
@@ -30,13 +30,13 @@ accounts.post("/signup", async (c) => {
     }
 })
 
-accounts.post("/login", async (c) => {
+accounts.post("/signin", async (c) => {
     try{
         const db = await database.init();
         const body = await c.req.json();
         const username:string = body.username;
         const password:string = body.password;
-        const token = await db.login(username,password)
+        const token = await db.signin(username,password)
         // token = uuid(true) or false
         if(token){
             c.status(200);

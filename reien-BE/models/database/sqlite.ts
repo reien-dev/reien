@@ -1,6 +1,9 @@
 import { Database } from "bun:sqlite"
 import config from "./../../config.toml"
 import date from "./../../utils/date"
+import crypt from "../../utils/crypt"
+import { sign } from "hono/jwt";
+import { SmartRouter } from "hono/router/smart-router";
 
 let db = undefined;
 
@@ -31,7 +34,7 @@ function create_token(id: string) {
     return token;
 }
 
-async function add_user(username:string, hashpass:string, email:string) {
+function add_user(username:string, hashpass:string, email:string) {
     const q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}' OR email = '${sqlite_escape(email)}'`).all()[0];
     if(q) {
         return false;
@@ -42,17 +45,6 @@ async function add_user(username:string, hashpass:string, email:string) {
 }
 
 
-async function login(username:string, password:string) {
-    const q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}'`).all()[0];
-    const p:boolean = await Bun.password.verify(password, q.hashpass);
-    if(!q || !p) {
-        return false
-    } else {
-    const id:string =  q.id;
-    return create_token(id);
-    //return = token(true) or false
-    }
-}
 
 // admin token
 //uuidが奇跡的に被ったらどうなる？ => TODO 重複対策
@@ -65,5 +57,21 @@ async function auth_token(token: string) {
     }
 }
 
+async function signup(username:string, password:string, email:string) {
+    const hashpass:string = crypt.hash_password(password);
+    return add_user(username, hashpass, email);
+}
 
-export default {init, add_user, login, auth_token}
+async function signin(username:string, password:string) {
+    const q = db.query(`SELECT * FROM users WHERE username = '${sqlite_escape(username)}'`).all()[0];
+    const p:boolean = await Bun.password.verify(password, q.hashpass);
+    if(!q || !p) {
+        return false
+    } else {
+    const id:string =  q.id;
+    return create_token(id);
+    //return = token(true) or false
+    }
+}
+
+export default {init, signup, signin, auth_token}
