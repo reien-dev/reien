@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 curl -fsSL https://bun.sh/install | bash
 bun install
