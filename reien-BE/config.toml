@@ -1,5 +1,0 @@
-[database]
-use = "sqlite"
-
-[database.sqlite]
-path = "database.sqlite"
