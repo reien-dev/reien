@@ -1,7 +1,8 @@
 import { Hono } from "hono"
 import { api } from "./routers"
-import { db } from "./models/sqlite/init"
+import { init } from "./models/sqlite/init"
 
+await init()
 const app = new Hono();
 
 app.route("/", api);

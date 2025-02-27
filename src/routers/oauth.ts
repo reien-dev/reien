@@ -1,4 +1,4 @@
-import { Hono } from 'hono'
+import { Hono } from "hono"
 
 export const oauth = new Hono()
 
@@ -9,9 +9,9 @@ oauth.get("/", async (c) => {
             message: "Success"
         });
     } catch(e) {
-        c.status(500);
+        c.status(422);
         return c.json({
-            error: "Internal server error"
+            
         });
     }
 })
