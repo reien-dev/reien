@@ -4,6 +4,8 @@ export const apps = new Hono()
 
 apps.post("/", async(c) => {
     try{
+        const body = await c.req.json();
+        
         c.status(200)
 
     } catch(e) {
