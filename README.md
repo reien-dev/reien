@@ -1,5 +1,5 @@
 # Reien
-軽量で小規模インスタンス向けのActivityPub実装reien
+軽量で小規模インスタンス向けのActivityPub実装
 
 ## 技術スタック
 - 言語/Typescript
